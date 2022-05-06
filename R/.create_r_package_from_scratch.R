@@ -40,6 +40,8 @@ if(FALSE) {
   desc::desc_add_remotes("kwb-r/kwb.base",normalize = TRUE)
 
   usethis::use_pipe()
+
+  desc::desc_normalize()
 }
 
 kwb.pkgbuild::use_ghactions()
