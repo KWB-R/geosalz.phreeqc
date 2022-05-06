@@ -75,7 +75,7 @@ sprintf("%s\n%s\n%s\n",
 )
 
 
-sprintf("TITLE\\s%s\n%sEND",
+sprintf("TITLE %s\n%sEND",
         title,
         paste(solutions_txt, collapse = ""))
 
