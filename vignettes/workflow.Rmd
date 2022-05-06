@@ -48,7 +48,8 @@ samples_tidy
 ## Prepare PHREEQC Input File
 
 ```{r prepare_phreeqc_input}
-solutions_input <- geosalz.phreeqc::prepare_solutions_input(samples_tidy)
+solutions_input <- geosalz.phreeqc::prepare_solutions_input(samples_tidy,
+                                                            title = "Test Dataset")
 
 ```
 
