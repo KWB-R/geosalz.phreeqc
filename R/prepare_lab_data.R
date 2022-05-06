@@ -1,19 +1,3 @@
-if(FALSE) {
-
-  samples <- read.csv2("data/phreeqc-input.csv")
-
-  solutions <- unique(samples$solution)
-
-  tidy_samples(samples = samples)
-
-  samples_tidy <- remove_missing_samples(samples_tidy)
-
-  samples_tidy <- convert_to_numeric_lab_values(samples_tidy)
-
-}
-
-
-
 #' Add solution id
 #'
 #' @param samples data.frame with samples in wide format, i.e. parameters are
@@ -102,8 +86,9 @@ convert_to_numeric_lab_values <- function(samples_tidy,
                                           detLimFactorBelow = 0.5,
                                           ...
                                           )  {
+samples_tidy <- remove_missing_samples(samples_tidy)
+
 samples_tidy %>%
-  remove_missing_samples() %>%
   dplyr::bind_cols(kwb.base::hsLabValToVal(samples_tidy$value,
                                            country = country,
                                            detLimFactorBelow = detLimFactorBelow,

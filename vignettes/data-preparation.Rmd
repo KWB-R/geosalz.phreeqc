@@ -1,0 +1,32 @@
+---
+title: "Data Preparation"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data Preparation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(geosalz.phreeqc)
+
+file_samples <- system.file("extdata/phreeqc-input.csv",
+                            package = "geosalz.phreeqc")
+
+samples <- read.csv2(file_samples)
+
+knitr::kable(samples)
+
+samples_tidy <- geosalz.phreeqc::tidy_samples(samples) %>%
+  geosalz.phreeqc::convert_to_numeric_lab_values()
+
+samples_tidy
+
+```
