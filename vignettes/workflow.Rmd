@@ -34,7 +34,7 @@ library(geosalz.phreeqc)
 file_samples <- system.file("extdata/phreeqc-input.csv",
                             package = "geosalz.phreeqc")
 
-samples <- read.csv2(file_samples)
+samples <- read.csv2(file_samples, check.names = FALSE)
 
 knitr::kable(samples)
 
