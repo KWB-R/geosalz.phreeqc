@@ -1,8 +1,8 @@
 ---
-title: "Data Preparation"
+title: "Workflow"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Data Preparation}
+  %\VignetteIndexEntry{Workflow}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -12,6 +12,17 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+```
+
+## Install R Package
+
+```{r install_r_packages, eval = FALSE}
+# Enable the KWB-R universe repository
+options(repos = c(
+  kwbr = "https://kwb-r.r-universe.dev",
+  CRAN = "https://cloud.r-project.org"))
+# Install R package
+install.packages("geosalz.phreeqc")
 ```
 
 
