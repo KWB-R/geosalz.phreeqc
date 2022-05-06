@@ -27,6 +27,7 @@ Imports:
 Suggests: 
     knitr,
     covr,
+    phreeqc,
     rmarkdown
 Remotes: 
     kwb-r/kwb.base

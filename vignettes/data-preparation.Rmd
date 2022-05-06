@@ -14,7 +14,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+
+## Tidy Lab Data
+
+```{r tidy_lab_data}
 library(geosalz.phreeqc)
 
 file_samples <- system.file("extdata/phreeqc-input.csv",
@@ -30,3 +33,42 @@ samples_tidy <- geosalz.phreeqc::tidy_samples(samples) %>%
 samples_tidy
 
 ```
+
+## Prepare PHREEQC Input File
+
+```{r prepare_phreeqc_input}
+solutions_input <- geosalz.phreeqc::prepare_solutions_input(samples_tidy)
+
+```
+
+Content of `solutions_input` is shown below:
+
+```{r prepare_phreeqc_input_show, echo = FALSE, comment=NA}
+cat(solutions_input)
+```
+
+## Run PHREEQC 
+
+```{r run_phreeqc_run, echo = TRUE}
+
+### Load PHREEQC database "minteq.dat"
+phreeqc::phrLoadDatabaseString(phreeqc::minteq.dat)
+
+### Capture PHREEQC output normally sent to output file into a buffer
+phreeqc::phrSetOutputStringsOn(TRUE)
+
+## Run PHREEQC with "solutions_input"
+phreeqc::phrRunString(input = solutions_input)
+
+### Retrieves the phreeqc output as a character vector
+phreeqc_output <- phreeqc::phrGetOutputStrings()
+
+```
+
+Here is the content of `phreeqc_output`
+
+```{r prepare_phreeqc_output, echo = FALSE, comment=NA}
+cat(phreeqc_output)
+```
+
+
