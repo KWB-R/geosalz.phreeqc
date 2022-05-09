@@ -74,13 +74,15 @@ phreeqc::phrRunString(input = solutions_input)
 
 ### Retrieves the phreeqc output as a character vector
 phreeqc_output <- phreeqc::phrGetOutputStrings()
+writeLines(phreeqc_output, "phreeqc_output.txt")
 
 ```
 
 Here is the content of `phreeqc_output`
 
 ```{r prepare_phreeqc_output, echo = FALSE, comment=NA}
-cat(phreeqc_output)
+cat(paste0(phreeqc_output, collapse = "\n"))
+
 ```
 
 
