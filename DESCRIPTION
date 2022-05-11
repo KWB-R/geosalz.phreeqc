@@ -12,7 +12,7 @@ Authors@R:
              family = "Baldwin",
              role = "ctb",
              email = "dwight.baldwin@kompetenz-wasser.de",
-             comment = c(ORCID = "")),
+             comment = c(ORCID = "0000-0002-9329-5973")),
       person(given = "GeoSalz",
              role = "fnd"),
       person(given = "Kompetenzzentrum Wasser Berlin gGmbH (KWB)",
