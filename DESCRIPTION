@@ -16,7 +16,7 @@ Authors@R:
       person(given = "GeoSalz",
              role = "fnd"),
       person(given = "Kompetenzzentrum Wasser Berlin gGmbH (KWB)",
-             role = "cph"))
+             role = "cph")))
 Description: R Package for Preparing Lab Samples as PHREEQC input for
     project GeoSalz.
 License: MIT + file LICENSE
