@@ -1,5 +1,7 @@
-phreeqc_output <- system.file("extdata/phreeqc_output.txt",
-                              package = "geosalz.phreeqc")
+phreeqc_output <- readLines(
+  system.file("extdata/phreeqc_output.txt",
+  package = "geosalz.phreeqc")
+)
 
 end_of_simulations_seconds <- phreeqc_output %>%
   stringr::str_subset(pattern = "End of Run after\\s.*\\sSeconds.") %>%
@@ -120,3 +122,6 @@ read_solution_description <- function(txt) {
   txt_clean
 
 }
+
+
+read_species_distribution(txt = sol_out$output[[4]])

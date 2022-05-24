@@ -24,8 +24,11 @@ URL: https://github.com/KWB-R/geosalz.phreeqc
 BugReports: https://github.com/KWB-R/geosalz.phreeqc/issues
 Imports: 
     dplyr,
+    janitor,
     kwb.base,
+    kwb.utils,
     magrittr,
+    readr,
     rlang,
     stringr,
     tidyr
@@ -35,7 +38,8 @@ Suggests:
     phreeqc,
     rmarkdown
 Remotes: 
-    kwb-r/kwb.base
+    kwb-r/kwb.base,
+    kwb-r/kwb.utils
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
