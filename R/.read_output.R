@@ -94,6 +94,7 @@ for (i in seq(nrow(sol_out))) {
     list(solution_output[sol_out$start_idx[i]:sol_out$end_idx[i]])
 }
 
+
 read_solution_composition <- function(txt) {
   #txt <- sol_out$output[[1]]
 
@@ -124,4 +125,64 @@ read_solution_description <- function(txt) {
 }
 
 
-read_species_distribution(txt = sol_out$output[[4]])
+read_redox_couple <- function(txt) {
+  #txt <- sol_out$output[[3]]
+
+  txt_clean <- txt %>%
+    stringr::str_trim() %>%
+    stringr::str_replace_all("Eh \\(volts\\)", "eh_volts") %>%
+    stringr::str_replace_all("Redox couple", "redox_couple") %>%
+    stringr::str_replace_all(" +", " ")
+
+
+  read.table(text = txt_clean,
+             sep = " ",
+             header = TRUE)
+
+
+
+}
+
+read_saturation_indices <- function(txt) {
+  #txt <- sol_out$output[[5]]
+  txt_header <- txt[1] %>%
+    stringr::str_trim() %>%
+    stringr::str_replace_all("\\sK,\\s+", "K_") %>%
+    stringr::str_replace_all("\\satm", "atm") %>%
+    stringr::str_replace_all("\\(", "_") %>%
+    stringr::str_replace_all("log\\s", "log_") %>%
+    stringr::str_remove_all("\\*{2}|\\)") %>%
+    stringr::str_split_fixed("\\s+", n = 4) %>%
+    janitor::make_clean_names()
+
+  txt_header <- c(txt_header, "chemical_formula")
+
+
+  txt_data <- txt[-1]
+
+  txt_clean <- txt_data %>%
+    stringr::str_trim() %>%
+    stringr::str_replace_all(" +", " ") %>%
+    stringr::str_split_fixed("\\s", n = 5) %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(V2 = as.numeric(.data$V2),
+                  V3 = as.numeric(.data$V3),
+                  V4 = as.numeric(.data$V4))
+
+
+ names(txt_clean) <- txt_header
+
+ txt_clean
+
+}
+
+
+sol_res <- list(
+  composition = read_solution_composition(sol_out$output[[1]]),
+  description = read_solution_description(sol_out$output[[2]]),
+  redox_couple = read_redox_couple(sol_out$output[[3]]),
+  distribution = read_species_distribution(sol_out$output[[4]]),
+  saturation_indices = read_saturation_indices(sol_out$output[[5]])
+)
+
+sol_res
