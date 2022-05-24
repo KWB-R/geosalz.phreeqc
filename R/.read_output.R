@@ -1,3 +1,5 @@
+if(FALSE) {
+
 phreeqc_output <- readLines(
   system.file("extdata/phreeqc_output.txt",
   package = "geosalz.phreeqc")
@@ -29,7 +31,7 @@ n_simulations <- length(calc_end_idx)
 
 indices <- seq(n_simulations)
 simulations <- tibble::tibble(
-  id = seq(n_simulations),
+  simulation_id = seq(n_simulations),
   input_start_idx = input_start_idx,
   input_end_idx = input_end_idx,
   calc_start_idx = calc_start_idx,
@@ -46,34 +48,34 @@ indices <- sim$calc_start_idx:sim$calc_end_idx
 calc_output <- phreeqc_output[indices]
 
 
-solutions_start_idx <- calc_output %>%
-  stringr::str_detect(pattern = "^Initial solution") %>%
-  which()
+solutions_start_idx <- grep("^Initial solution", calc_output)
 
 
 solutions <- calc_output[solutions_start_idx] %>%
   stringr::str_split_fixed(pattern = "\\t", n = 2) %>%
   as.data.frame() %>%
-  dplyr::rename(id = "V1",
-                name = "V2") %>%
-  dplyr::mutate(id = stringr::str_remove_all(.data$id,
-                                             pattern = "Initial solution\\s?|\\.$"))
+  dplyr::rename(solution_id = "V1",
+                solution_name = "V2") %>%
+  dplyr::mutate(solution_id = stringr::str_remove_all(.data$solution_id,
+                                             pattern = "Initial solution\\s?|\\.$"),
+                simulation_id = sim$simulation_id)
 
 solutions$start_idx <- solutions_start_idx
 solutions$end_idx <-
   c(solutions_start_idx[2:length(solutions_start_idx)] - 4,
-    sim$calc_end_idx - 5)
+    length(calc_output) - 5)
 
-sol <- solutions[1, ]
+solutions <- kwb.utils::moveColumnsToFront(solutions, columns = "simulation_id")
 
+sol_list_raw <- lapply(seq(nrow(solutions)), function(i) {
+
+  sol <- solutions[i,]
 
 solution_output <- calc_output[sol$start_idx:sol$end_idx] %>%
   stringr::str_subset(pattern = "")
 
 
-ind <- solution_output %>%
-  stringr::str_detect("^-+") %>%
-  which()
+ind <- grep("^-+", solution_output)
 
 sol_out_names <- solution_output[ind] %>%
   stringr::str_remove_all("-+") %>%
@@ -85,15 +87,52 @@ sol_out <- tibble::tibble(
   name = sol_out_names,
   start_idx = ind + 1,
   end_idx = c(ind[2:length(ind)] - 1,
-              length(solution_output)),
-  output = ""
+              length(solution_output))
 )
 
-for (i in seq(nrow(sol_out))) {
-  sol_out$output[i] <-
-    list(solution_output[sol_out$start_idx[i]:sol_out$end_idx[i]])
-}
+stats::setNames(lapply(seq(nrow(sol_out)), function(i) {
+  solution_output[sol_out$start_idx[i]:sol_out$end_idx[i]]
+  }
+), nm = sol_out_names)
 
+
+})
+
+solutions$blocks_raw <- sol_list_raw
+
+solutions$solution_composition <- lapply(seq(nrow(solutions)), function(i) {
+  read_solution_composition(solutions[i,]$blocks_raw[[1]]$solution_composition)
+})
+
+solutions$description_of_solution <- lapply(seq(nrow(solutions)), function(i) {
+  read_solution_description(solutions[i,]$blocks_raw[[1]]$description_of_solution)
+})
+
+solutions$redox_couples <- lapply(seq(nrow(solutions)), function(i) {
+  read_redox_couple(solutions[i,]$blocks_raw[[1]]$redox_couples)
+})
+
+solutions$distribution_of_species <- lapply(seq(nrow(solutions)), function(i) {
+  read_species_distribution(solutions[i,]$blocks_raw[[1]]$distribution_of_species)
+})
+
+solutions$saturation_indices <- lapply(seq(nrow(solutions)), function(i) {
+  read_saturation_indices(solutions[i,]$blocks_raw[[1]]$saturation_indices)
+})
+
+col_names <- names(solutions$blocks_raw[[1]])
+
+solutions_output <- stats::setNames(lapply(col_names, function(col_name) {
+  solutions %>%
+  dplyr::select(tidyselect::all_of(c(names(solutions)[1:3], col_name))) %>%
+  tidyr::unnest(cols = tidyselect::all_of(col_name))
+
+}),nm = col_names)
+
+
+openxlsx::write.xlsx(solutions_output,file = "phreeqc_output.xlsx")
+
+}
 
 read_solution_composition <- function(txt) {
   #txt <- sol_out$output[[1]]
@@ -177,12 +216,6 @@ read_saturation_indices <- function(txt) {
 }
 
 
-sol_res <- list(
-  composition = read_solution_composition(sol_out$output[[1]]),
-  description = read_solution_description(sol_out$output[[2]]),
-  redox_couple = read_redox_couple(sol_out$output[[3]]),
-  distribution = read_species_distribution(sol_out$output[[4]]),
-  saturation_indices = read_saturation_indices(sol_out$output[[5]])
-)
 
-sol_res
+
+
