@@ -8,7 +8,8 @@ tidy_samples(samples)
 }
 \arguments{
 \item{samples}{data.frame with samples in wide format, i.e. parameters are
-columns and each row is one sample}
+columns and each row is one sample. Coerce samples data.frame to as.character
+to address potential input format error}
 }
 \value{
 data.frame with samples in tidy format, i.e. parameters are
