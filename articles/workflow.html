@@ -2054,7 +2054,7 @@ Reading input data for simulation 2.
 ------------------------------------
 
 ---------------------------------
-End of Run after 2.45416 Seconds.
+End of Run after 2.24163 Seconds.
 ---------------------------------</code></pre>
 </div>
 <div class="section level2">
@@ -2062,13 +2062,9 @@ End of Run after 2.45416 Seconds.
 </h2>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sims</span> <span class="op">&lt;-</span> <span class="fu">geosalz.phreeqc</span><span class="fu">::</span><span class="fu"><a href="../reference/read_simulations.html">read_simulations</a></span><span class="op">(</span><span class="va">phreeqc_output</span><span class="op">)</span>
-<span class="co">#&gt; Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if `.name_repair` is omitted as of tibble 2.0.0.</span>
-<span class="co">#&gt; Using compatibility `.name_repair`.</span>
-<span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span>
-<span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span></span>
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">sims</span><span class="op">)</span>
 <span class="co">#&gt; List of 3</span>
-<span class="co">#&gt;  $ end_of_simulations_seconds: num 2.45</span>
+<span class="co">#&gt;  $ end_of_simulations_seconds: num 2.24</span>
 <span class="co">#&gt;  $ input                     : tibble [117 × 7] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   ..$ simulation_id: int [1:117] 1 1 1 1 1 1 1 1 1 1 ...</span>
 <span class="co">#&gt;   ..$ dataset_name : chr [1:117] "Test Dataset" "Test Dataset" "Test Dataset" "Test Dataset" ...</span>
@@ -2080,30 +2076,26 @@ End of Run after 2.45416 Seconds.
 <span class="co">#&gt;  $ output                    : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   ..$ simulation_id: int [1:5] 1 1 1 1 1</span>
 <span class="co">#&gt;   ..$ solutions    :List of 5</span>
-<span class="co">#&gt;   .. ..$ solution_composition   : tibble [104 × 6] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   .. ..$ solution_composition   : tibble [104 × 5] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   .. .. ..$ solution_id  : chr [1:104] "1" "1" "1" "1" ...</span>
 <span class="co">#&gt;   .. .. ..$ solution_name: chr [1:104] "30a9e918" "30a9e918" "30a9e918" "30a9e918" ...</span>
-<span class="co">#&gt;   .. .. ..$ start_idx    : int [1:104] 4 4 4 4 4 4 4 4 4 4 ...</span>
 <span class="co">#&gt;   .. .. ..$ elements     : chr [1:104] "B" "Br" "C(4)" "Ca" ...</span>
 <span class="co">#&gt;   .. .. ..$ molality     : num [1:104] 9.25e-07 7.51e-07 2.90e-03 2.52e-03 9.88e-04 ...</span>
 <span class="co">#&gt;   .. .. ..$ moles        : num [1:104] 9.25e-07 7.51e-07 2.90e-03 2.52e-03 9.88e-04 ...</span>
-<span class="co">#&gt;   .. ..$ description_of_solution: tibble [111 × 5] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   .. ..$ description_of_solution: tibble [111 × 4] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   .. .. ..$ solution_id  : chr [1:111] "1" "1" "1" "1" ...</span>
 <span class="co">#&gt;   .. .. ..$ solution_name: chr [1:111] "30a9e918" "30a9e918" "30a9e918" "30a9e918" ...</span>
-<span class="co">#&gt;   .. .. ..$ start_idx    : int [1:111] 4 4 4 4 4 4 4 4 4 4 ...</span>
 <span class="co">#&gt;   .. .. ..$ parameter    : chr [1:111] "pH" "pe" "Specific Conductance (uS/cm,  12oC)" "Density (g/cm3)" ...</span>
 <span class="co">#&gt;   .. .. ..$ value        : chr [1:111] "7.790" "4.000" "457" "0.99985" ...</span>
-<span class="co">#&gt;   .. ..$ redox_couples          : tibble [21 × 6] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   .. ..$ redox_couples          : tibble [21 × 5] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   .. .. ..$ solution_id  : chr [1:21] "1" "1" "1" "2" ...</span>
 <span class="co">#&gt;   .. .. ..$ solution_name: chr [1:21] "30a9e918" "30a9e918" "30a9e918" "1a0885dd" ...</span>
-<span class="co">#&gt;   .. .. ..$ start_idx    : int [1:21] 4 4 4 212 212 212 420 420 420 628 ...</span>
 <span class="co">#&gt;   .. .. ..$ redox_couple : chr [1:21] "N(-3)/N(3)" "N(-3)/N(5)" "N(3)/N(5)" "N(-3)/N(3)" ...</span>
 <span class="co">#&gt;   .. .. ..$ pe           : num [1:21] 5.25 5.82 7.55 5.23 5.84 ...</span>
 <span class="co">#&gt;   .. .. ..$ eh_volts     : num [1:21] 0.297 0.33 0.428 0.295 0.33 ...</span>
-<span class="co">#&gt;   .. ..$ distribution_of_species: tibble [718 × 11] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   .. ..$ distribution_of_species: tibble [718 × 10] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   .. .. ..$ solution_id   : chr [1:718] "1" "1" "1" "1" ...</span>
 <span class="co">#&gt;   .. .. ..$ solution_name : chr [1:718] "30a9e918" "30a9e918" "30a9e918" "30a9e918" ...</span>
-<span class="co">#&gt;   .. .. ..$ start_idx     : int [1:718] 4 4 4 4 4 4 4 4 4 4 ...</span>
 <span class="co">#&gt;   .. .. ..$ element       : chr [1:718] "" "" "" "B" ...</span>
 <span class="co">#&gt;   .. .. ..$ species       : chr [1:718] "OH-" "H+" "H2O" "H3BO3" ...</span>
 <span class="co">#&gt;   .. .. ..$ molality      : chr [1:718] "2.498e-07" "1.770e-08" "5.551e+01" "8.977e-07" ...</span>
@@ -2112,10 +2104,9 @@ End of Run after 2.45416 Seconds.
 <span class="co">#&gt;   .. .. ..$ log_activity  : chr [1:718] "-6.646" "-7.790" "-0.000" "-6.046" ...</span>
 <span class="co">#&gt;   .. .. ..$ log_gamma     : chr [1:718] "-0.044" "-0.038" "0.000" "0.001" ...</span>
 <span class="co">#&gt;   .. .. ..$ mole_v_cm3_mol: chr [1:718] "-4.74" "0.00" "18.03" "38.09" ...</span>
-<span class="co">#&gt;   .. ..$ saturation_indices     : tibble [141 × 12] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   .. ..$ saturation_indices     : tibble [141 × 11] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   .. .. ..$ solution_id     : chr [1:141] "1" "1" "1" "1" ...</span>
 <span class="co">#&gt;   .. .. ..$ solution_name   : chr [1:141] "30a9e918" "30a9e918" "30a9e918" "30a9e918" ...</span>
-<span class="co">#&gt;   .. .. ..$ start_idx       : int [1:141] 4 4 4 4 4 4 4 4 4 4 ...</span>
 <span class="co">#&gt;   .. .. ..$ phase           : chr [1:141] "Anhydrite" "Aragonite" "Calcite" "CO2(g)" ...</span>
 <span class="co">#&gt;   .. .. ..$ si              : num [1:141] -1.81 0.18 0.33 -2.65 -0.18 ...</span>
 <span class="co">#&gt;   .. .. ..$ log_iap         : num [1:141] -5.96 -8.08 -8.08 -3.96 -17.09 ...</span>
@@ -2130,7 +2121,7 @@ End of Run after 2.45416 Seconds.
 <span class="va">sims_list</span> <span class="op">&lt;-</span> <span class="fu">geosalz.phreeqc</span><span class="fu">::</span><span class="fu"><a href="../reference/convert_simulations_to_list.html">convert_simulations_to_list</a></span><span class="op">(</span><span class="va">sims</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">sims_list</span><span class="op">)</span>
 <span class="co">#&gt; List of 7</span>
-<span class="co">#&gt;  $ end_of_simulations_seconds: num 2.45</span>
+<span class="co">#&gt;  $ end_of_simulations_seconds: num 2.24</span>
 <span class="co">#&gt;  $ input                     : tibble [117 × 7] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   ..$ simulation_id: int [1:117] 1 1 1 1 1 1 1 1 1 1 ...</span>
 <span class="co">#&gt;   ..$ dataset_name : chr [1:117] "Test Dataset" "Test Dataset" "Test Dataset" "Test Dataset" ...</span>
@@ -2139,30 +2130,26 @@ End of Run after 2.45416 Seconds.
 <span class="co">#&gt;   ..$ parameter    : chr [1:117] "temp" "pH" "Fe(2)" "Mn" ...</span>
 <span class="co">#&gt;   ..$ value        : num [1:117] 12.5 7.79 0.98 0.37 177 101 7.26 16.3 1.32 0.1 ...</span>
 <span class="co">#&gt;   ..$ unit         : chr [1:117] "" "" "ppm" "ppm" ...</span>
-<span class="co">#&gt;  $ solution_composition      : tibble [104 × 6] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;  $ solution_composition      : tibble [104 × 5] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   ..$ solution_id  : chr [1:104] "1" "1" "1" "1" ...</span>
 <span class="co">#&gt;   ..$ solution_name: chr [1:104] "30a9e918" "30a9e918" "30a9e918" "30a9e918" ...</span>
-<span class="co">#&gt;   ..$ start_idx    : int [1:104] 4 4 4 4 4 4 4 4 4 4 ...</span>
 <span class="co">#&gt;   ..$ elements     : chr [1:104] "B" "Br" "C(4)" "Ca" ...</span>
 <span class="co">#&gt;   ..$ molality     : num [1:104] 9.25e-07 7.51e-07 2.90e-03 2.52e-03 9.88e-04 ...</span>
 <span class="co">#&gt;   ..$ moles        : num [1:104] 9.25e-07 7.51e-07 2.90e-03 2.52e-03 9.88e-04 ...</span>
-<span class="co">#&gt;  $ description_of_solution   : tibble [111 × 5] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;  $ description_of_solution   : tibble [111 × 4] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   ..$ solution_id  : chr [1:111] "1" "1" "1" "1" ...</span>
 <span class="co">#&gt;   ..$ solution_name: chr [1:111] "30a9e918" "30a9e918" "30a9e918" "30a9e918" ...</span>
-<span class="co">#&gt;   ..$ start_idx    : int [1:111] 4 4 4 4 4 4 4 4 4 4 ...</span>
 <span class="co">#&gt;   ..$ parameter    : chr [1:111] "pH" "pe" "Specific Conductance (uS/cm,  12oC)" "Density (g/cm3)" ...</span>
 <span class="co">#&gt;   ..$ value        : chr [1:111] "7.790" "4.000" "457" "0.99985" ...</span>
-<span class="co">#&gt;  $ redox_couples             : tibble [21 × 6] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;  $ redox_couples             : tibble [21 × 5] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   ..$ solution_id  : chr [1:21] "1" "1" "1" "2" ...</span>
 <span class="co">#&gt;   ..$ solution_name: chr [1:21] "30a9e918" "30a9e918" "30a9e918" "1a0885dd" ...</span>
-<span class="co">#&gt;   ..$ start_idx    : int [1:21] 4 4 4 212 212 212 420 420 420 628 ...</span>
 <span class="co">#&gt;   ..$ redox_couple : chr [1:21] "N(-3)/N(3)" "N(-3)/N(5)" "N(3)/N(5)" "N(-3)/N(3)" ...</span>
 <span class="co">#&gt;   ..$ pe           : num [1:21] 5.25 5.82 7.55 5.23 5.84 ...</span>
 <span class="co">#&gt;   ..$ eh_volts     : num [1:21] 0.297 0.33 0.428 0.295 0.33 ...</span>
-<span class="co">#&gt;  $ distribution_of_species   : tibble [718 × 11] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;  $ distribution_of_species   : tibble [718 × 10] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   ..$ solution_id   : chr [1:718] "1" "1" "1" "1" ...</span>
 <span class="co">#&gt;   ..$ solution_name : chr [1:718] "30a9e918" "30a9e918" "30a9e918" "30a9e918" ...</span>
-<span class="co">#&gt;   ..$ start_idx     : int [1:718] 4 4 4 4 4 4 4 4 4 4 ...</span>
 <span class="co">#&gt;   ..$ element       : chr [1:718] "" "" "" "B" ...</span>
 <span class="co">#&gt;   ..$ species       : chr [1:718] "OH-" "H+" "H2O" "H3BO3" ...</span>
 <span class="co">#&gt;   ..$ molality      : chr [1:718] "2.498e-07" "1.770e-08" "5.551e+01" "8.977e-07" ...</span>
@@ -2171,10 +2158,9 @@ End of Run after 2.45416 Seconds.
 <span class="co">#&gt;   ..$ log_activity  : chr [1:718] "-6.646" "-7.790" "-0.000" "-6.046" ...</span>
 <span class="co">#&gt;   ..$ log_gamma     : chr [1:718] "-0.044" "-0.038" "0.000" "0.001" ...</span>
 <span class="co">#&gt;   ..$ mole_v_cm3_mol: chr [1:718] "-4.74" "0.00" "18.03" "38.09" ...</span>
-<span class="co">#&gt;  $ saturation_indices        : tibble [141 × 12] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;  $ saturation_indices        : tibble [141 × 11] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   ..$ solution_id     : chr [1:141] "1" "1" "1" "1" ...</span>
 <span class="co">#&gt;   ..$ solution_name   : chr [1:141] "30a9e918" "30a9e918" "30a9e918" "30a9e918" ...</span>
-<span class="co">#&gt;   ..$ start_idx       : int [1:141] 4 4 4 4 4 4 4 4 4 4 ...</span>
 <span class="co">#&gt;   ..$ phase           : chr [1:141] "Anhydrite" "Aragonite" "Calcite" "CO2(g)" ...</span>
 <span class="co">#&gt;   ..$ si              : num [1:141] -1.81 0.18 0.33 -2.65 -0.18 ...</span>
 <span class="co">#&gt;   ..$ log_iap         : num [1:141] -5.96 -8.08 -8.08 -3.96 -17.09 ...</span>
