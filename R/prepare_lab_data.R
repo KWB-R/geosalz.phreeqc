@@ -19,7 +19,6 @@ add_solution_id <- function(samples)  {
 #'
 #' @param samples data.frame with samples in wide format, i.e. parameters are
 #' columns and each row is one sample
-#' Coerce samples data.frame to as.character to address potential input format error
 #' @return  data.frame with samples in tidy format, i.e. parameters are
 #' columns and each row is one value
 #' @export
@@ -32,7 +31,6 @@ tidy_samples <- function(samples) {
   col_names <- names(samples)[!names(samples) %in% c("solution_id", "solution", "units")]
 
   samples %>%
-    mutate_all(as.character) %>%
     add_solution_id() %>%
     tidyr::pivot_longer(cols = col_names,
                         names_to = "parameter",

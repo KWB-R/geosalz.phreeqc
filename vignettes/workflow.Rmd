@@ -63,8 +63,8 @@ cat(solutions_input)
 
 ```{r run_phreeqc_run, echo = TRUE}
 
-### Load PHREEQC database "minteq.dat"
-phreeqc::phrLoadDatabaseString(phreeqc::minteq.dat)
+### Load PHREEQC database "phreeqc.dat"
+phreeqc::phrLoadDatabaseString(phreeqc::phreeqc.dat)
 
 ### Capture PHREEQC output normally sent to output file into a buffer
 phreeqc::phrSetOutputStringsOn(TRUE)
@@ -85,4 +85,28 @@ cat(paste0(phreeqc_output, collapse = "\n"))
 
 ```
 
+
+## Get Results
+
+```{r run_phreeqc_reusults, echo = TRUE}
+sims <- geosalz.phreeqc::read_simulations(phreeqc_output)
+str(sims)
+
+
+sims_list <- geosalz.phreeqc::convert_simulations_to_list(sims)
+str(sims_list)
+
+
+```
+
+
+
+## Export to Excel
+
+```{r run_phreeqc_export, echo = TRUE}
+openxlsx::write.xlsx(x = sims_list,
+                     file = "phreeqc_output.xlsx",
+                     overwrite = TRUE)
+
+```
 
