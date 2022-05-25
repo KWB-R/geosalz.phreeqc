@@ -241,6 +241,7 @@ read_output_input <- function(txt) {
     stringr::str_remove("SOLUTION\\s") %>%
     stringr::str_replace(" +", " ") %>%
     stringr::str_split_fixed(pattern = "\\s", n = 2) %>%
+    as.data.frame() %>%
     tibble::as_tibble() %>%
     dplyr::rename(solution_id = .data$V1,
                   solution_name = .data$V2) %>%
@@ -288,11 +289,13 @@ read_input_txt <- function(txt) {
 
 
   unit <- stringr::str_split_fixed(dat[1], " ", n = 2) %>%
+    as.data.frame() %>%
     tibble::as_tibble() %>%
     dplyr::rename(value = .data$V2)
 
   dat[-1] %>%
     stringr::str_split_fixed(" ", n = 2) %>%
+    as.data.frame() %>%
     tibble::as_tibble() %>%
     dplyr::rename(parameter = .data$V1,
                   value = .data$V2) %>%
@@ -344,6 +347,7 @@ read_solution_description <- function(txt) {
   txt_clean <- txt %>%
     stringr::str_trim() %>%
     stringr::str_split_fixed(pattern = "\\s+=\\s+", n = 2) %>%
+    as.data.frame() %>%
     tibble::as_tibble()
 
 
@@ -407,6 +411,7 @@ read_saturation_indices <- function(txt) {
     stringr::str_trim() %>%
     stringr::str_replace_all(" +", " ") %>%
     stringr::str_split_fixed("\\s", n = 5) %>%
+    as.data.frame() %>%
     tibble::as_tibble() %>%
     dplyr::mutate(V2 = as.numeric(.data$V2),
                   V3 = as.numeric(.data$V3),
