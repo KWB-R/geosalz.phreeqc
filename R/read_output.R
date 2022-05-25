@@ -204,7 +204,7 @@ read_output_solutions <- function(calc_output) {
 
     stats::setNames(lapply(col_names, function(col_name) {
       solutions %>%
-         dplyr::select(tidyselect::all_of(c(names(solutions)[1:3], col_name))) %>%
+         dplyr::select(tidyselect::all_of(c(names(solutions)[1:2], col_name))) %>%
          tidyr::unnest(cols = tidyselect::all_of(col_name))
 
      }), nm = col_names)
