@@ -28,6 +28,9 @@
     <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/add_solution_id.html</loc>
   </url>
   <url>
+    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/convert_simulations_to_list.html</loc>
+  </url>
+  <url>
     <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/convert_to_numeric_lab_values.html</loc>
   </url>
   <url>
@@ -40,7 +43,13 @@
     <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/prepare_solutions_input.html</loc>
   </url>
   <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/read_output_file.html</loc>
+    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/read_redox_couples.html</loc>
+  </url>
+  <url>
+    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/read_saturation_indices.html</loc>
+  </url>
+  <url>
+    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/read_simulations.html</loc>
   </url>
   <url>
     <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/remove_missing_samples.html</loc>
