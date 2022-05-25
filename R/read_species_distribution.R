@@ -39,7 +39,6 @@ head(txt_data)
 # Add pseudo element as first row
 x <- c("XYZ", txt_data)
 
-head(x)
 
 starts <- grep("^\\S", x)
 ranges <- kwb.utils::startsToRanges(starts, lastStop = length(x))

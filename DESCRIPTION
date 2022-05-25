@@ -24,11 +24,14 @@ Imports:
     readr,
     rlang,
     stringr,
-    tidyr
+    tibble,
+    tidyr,
+    tidyselect
 Suggests: 
     covr,
     knitr,
     phreeqc,
+    openxlsx,
     rmarkdown
 VignetteBuilder: 
     knitr

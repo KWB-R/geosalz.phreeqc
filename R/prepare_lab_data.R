@@ -18,8 +18,7 @@ add_solution_id <- function(samples)  {
 #' Tidy Samples
 #'
 #' @param samples data.frame with samples in wide format, i.e. parameters are
-#' columns and each row is one samole
-#'
+#' columns and each row is one sample
 #' @return  data.frame with samples in tidy format, i.e. parameters are
 #' columns and each row is one value
 #' @export

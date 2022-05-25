@@ -8,7 +8,7 @@ tidy_samples(samples)
 }
 \arguments{
 \item{samples}{data.frame with samples in wide format, i.e. parameters are
-columns and each row is one samole}
+columns and each row is one sample}
 }
 \value{
 data.frame with samples in tidy format, i.e. parameters are
