@@ -19,6 +19,9 @@ package_file <- function(...)
 
 #' Remove Empty Elements at the Start or End of a Vector
 #'
+#' @param x vector of character
+#' @return \code{x} with empty elements at the beginning and end of \code{x}
+#'   being removed
 trim_vector <- function(x)
 {
   # Idea: (Ab)use clipMatrix() to remove empty elements at the start or end of

@@ -6,6 +6,13 @@
 \usage{
 trim_vector(x)
 }
+\arguments{
+\item{x}{vector of character}
+}
+\value{
+\code{x} with empty elements at the beginning and end of \code{x}
+being removed
+}
 \description{
 Remove Empty Elements at the Start or End of a Vector
 }
