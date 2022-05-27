@@ -31,8 +31,7 @@ install.packages("geosalz.phreeqc")
 ```{r tidy_lab_data}
 library(geosalz.phreeqc)
 
-file_samples <- system.file("extdata/phreeqc-input.csv",
-                            package = "geosalz.phreeqc")
+file_samples <- geosalz.phreeqc::package_file("phreeqc-input.csv")
 
 samples <- read.csv2(file_samples, check.names = FALSE)
 

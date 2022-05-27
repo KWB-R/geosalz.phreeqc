@@ -17,6 +17,17 @@ is_empty <- function(x)
   grep("^\\s*$", x)
 }
 
+# package_file -----------------------------------------------------------------
+#' Path to File Stored in Package
+#'
+#' @param \dots segments of path to file, in the simplest form just a file name
+#' @return full path to file within "extdata" folder of the installed package
+#' @export
+package_file <- function(...)
+{
+  file.path(system.file("extdata", package = "geosalz.phreeqc"), ...)
+}
+
 # text_to_data_frame -----------------------------------------------------------
 text_to_data_frame <- function(x)
 {
