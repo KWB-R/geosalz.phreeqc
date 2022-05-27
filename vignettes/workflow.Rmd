@@ -20,11 +20,12 @@ knitr::opts_chunk$set(
 # Enable the KWB-R universe repository
 options(repos = c(
   kwbr = "https://kwb-r.r-universe.dev",
-  CRAN = "https://cloud.r-project.org"))
+  CRAN = "https://cloud.r-project.org"
+))
+
 # Install R package
 install.packages("geosalz.phreeqc")
 ```
-
 
 ## Tidy Lab Data
 
@@ -41,15 +42,15 @@ samples_tidy <- geosalz.phreeqc::tidy_samples(samples) %>%
   geosalz.phreeqc::convert_to_numeric_lab_values()
 
 samples_tidy
-
 ```
 
 ## Prepare PHREEQC Input File
 
 ```{r prepare_phreeqc_input}
-solutions_input <- geosalz.phreeqc::prepare_solutions_input(samples_tidy,
-                                                            title = "Test Dataset")
-
+solutions_input <- geosalz.phreeqc::prepare_solutions_input(
+  samples_tidy,
+  title = "Test Dataset"
+)
 ```
 
 Content of `solutions_input` is shown below:
@@ -74,16 +75,13 @@ phreeqc::phrRunString(input = solutions_input)
 ### Retrieves the phreeqc output as a character vector
 phreeqc_output <- phreeqc::phrGetOutputStrings()
 writeLines(phreeqc_output, "phreeqc_output.txt")
-
 ```
 
 Here is the content of `phreeqc_output`
 
 ```{r prepare_phreeqc_output, echo = FALSE, comment=NA}
 cat(paste0(phreeqc_output, collapse = "\n"))
-
 ```
-
 
 ## Get Results
 
@@ -91,21 +89,16 @@ cat(paste0(phreeqc_output, collapse = "\n"))
 sims <- geosalz.phreeqc::read_simulations(phreeqc_output)
 str(sims)
 
-
 sims_list <- geosalz.phreeqc::convert_simulations_to_list(sims)
 str(sims_list)
-
-
 ```
-
-
 
 ## Export to Excel
 
 ```{r run_phreeqc_export, echo = TRUE}
-openxlsx::write.xlsx(x = sims_list,
-                     file = "phreeqc_output.xlsx",
-                     overwrite = TRUE)
-
+openxlsx::write.xlsx(
+  x = sims_list,
+  file = "phreeqc_output.xlsx",
+  overwrite = TRUE
+)
 ```
-
