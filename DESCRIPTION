@@ -19,7 +19,7 @@ Imports:
     dplyr,
     janitor,
     kwb.base,
-    kwb.utils,
+    kwb.utils (>= 0.12.0),
     magrittr,
     readr,
     rlang,
