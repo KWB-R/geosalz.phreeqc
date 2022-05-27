@@ -54,6 +54,7 @@ get_end_of_simulations_seconds <- function(phreeqc_output) {
 #' @importFrom rlang .data
 
 read_simulations <- function(phreeqc_output) {
+
   input_start_idx <- phreeqc_output %>%
     stringr::str_detect(pattern = "\\tTITLE") %>%
     which()
@@ -72,14 +73,15 @@ read_simulations <- function(phreeqc_output) {
 
   n_simulations <- length(calc_end_idx)
 
-  indices <- seq(n_simulations)
+  indices <- seq_len(n_simulations)
 
-  input_raw <- lapply(seq(indices), function(i) {
+  input_raw <- lapply(indices, function(i) {
     phreeqc_output[input_start_idx[i]:input_end_idx[i]]
   })
 
-  input <- lapply(seq(indices), function(i) {
-    read_output_input(txt = input_raw[[i]])
+  input <- lapply(input_raw, function(txt) {
+    #txt <- input_raw[[1L]]
+    read_output_input(txt = txt)
   })
 
   calc_raw <- lapply(seq(indices), function(i) {
@@ -227,12 +229,12 @@ read_output_solutions <- function(calc_output) {
 #'
 read_output_input <- function(txt) {
   #txt <- phreeqc_output[sim$input_start_idx:sim$input_end_idx]
-  dataset_name <- txt[1] %>%
+  dataset_name <- txt[1L] %>%
     stringr::str_remove("\\tTITLE\\s")
 
-  txt_solutions <- txt[-1] %>%
-  stringr::str_subset("^\\tEND|^-|TITLE", negate = TRUE) %>%
-  stringr::str_remove_all("\\t")
+  txt_solutions <- txt[-1L] %>%
+    stringr::str_subset("^\\tEND|^-|TITLE", negate = TRUE) %>%
+    stringr::str_remove_all("\\t")
 
 
   sol_names_idx <- grep("^SOLUTION", txt_solutions)
@@ -248,22 +250,21 @@ read_output_input <- function(txt) {
     dplyr::mutate(dataset_name = dataset_name) %>%
     dplyr::relocate(.data$dataset_name, .before = .data$solution_id)
 
-  sol_df$start_idx <- sol_names_idx + 1
-  sol_df$end_idx <- c(sol_names_idx[2:length(sol_names_idx)] - 1, length(txt_solutions))
+  sol_df$start_idx <- sol_names_idx + 1L
+  sol_df$end_idx <- c(sol_names_idx[2:length(sol_names_idx)] - 1L, length(txt_solutions))
   sol_df$txt_raw <- ""
-  for(i in seq(nrow(sol_df))) {
-  sol_df$txt_raw[i] <- list(txt_solutions[sol_df$start_idx[i]:sol_df$end_idx[i]])
+
+  for(i in seq_len(nrow(sol_df))) {
+    sol_df$txt_raw[i] <- list(txt_solutions[sol_df$start_idx[i]:sol_df$end_idx[i]])
   }
 
-  sol_df$input <- lapply(seq(nrow(sol_df)), function(i) {
-    read_input_txt(sol_df[i,]$txt_raw[[1]])
-    }
-  )
+  sol_df$input <- lapply(seq_len(nrow(sol_df)), function(i) {
+    read_input_txt(txt = sol_df[i, ]$txt_raw[[1L]])
+  })
 
   sol_df %>%
     dplyr::select(- tidyselect::ends_with("_idx"), - tidyselect::ends_with("_raw")) %>%
     tidyr::unnest(.data$input)
-
 }
 
 
@@ -279,32 +280,35 @@ read_output_input <- function(txt) {
 #' @importFrom dplyr mutate if_else
 #' @importFrom tibble as_tibble
 #' @importFrom tidyselect ends_with
+#' @importFrom kwb.utils asNoFactorDataFrame
 #'
-
 read_input_txt <- function(txt) {
 
   dat <- txt %>%
     stringr::str_trim() %>%
     stringr::str_replace(" +", " ")
 
-
-  unit <- stringr::str_split_fixed(dat[1], " ", n = 2) %>%
-    as.data.frame() %>%
+  unit <- stringr::str_split_fixed(dat[1L], " ", n = 2L) %>%
+    kwb.utils::asNoFactorDataFrame() %>%
     tibble::as_tibble() %>%
     dplyr::rename(value = .data$V2)
 
-  dat[-1] %>%
-    stringr::str_split_fixed(" ", n = 2) %>%
-    as.data.frame() %>%
+  dat[-1L] %>%
+    stringr::str_split_fixed(" ", n = 2L) %>%
+    kwb.utils::asNoFactorDataFrame() %>%
     tibble::as_tibble() %>%
-    dplyr::rename(parameter = .data$V1,
-                  value = .data$V2) %>%
-    dplyr::mutate(value = as.numeric(.data$value),
-                  unit = dplyr::if_else(!.data$parameter %in% c("temp", "pH"),
-                                        unit$value,
-                                        ""))
-
-
+    dplyr::rename(
+      parameter = .data$V1,
+      value = .data$V2
+    ) %>%
+    dplyr::mutate(
+      value = as.numeric(.data$value),
+      unit = dplyr::if_else(
+        !.data$parameter %in% c("temp", "pH"),
+        unit$value,
+        ""
+      )
+    )
 }
 
 
