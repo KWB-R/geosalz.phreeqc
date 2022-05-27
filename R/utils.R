@@ -1,16 +1,3 @@
-# extract_blocks ---------------------------------------------------------------
-extract_blocks <- function(x, starts, startOffset = 1L, stopOffset = 1L)
-{
-  ranges <- kwb.utils::startsToRanges(
-    starts = starts,
-    lastStop = length(x),
-    startOffset = startOffset,
-    stopOffset = stopOffset
-  )
-
-  lapply(seq_len(nrow(ranges)), function(i) x[ranges$from[i]:ranges$to[i]])
-}
-
 # is_empty ---------------------------------------------------------------------
 is_empty <- function(x)
 {
@@ -26,6 +13,32 @@ is_empty <- function(x)
 package_file <- function(...)
 {
   file.path(system.file("extdata", package = "geosalz.phreeqc"), ...)
+}
+
+# trim_vector ------------------------------------------------------------------
+
+#' Remove Empty Elements at the Start or End of a Vector
+#'
+trim_vector <- function(x)
+{
+  # Idea: (Ab)use clipMatrix() to remove empty elements at the start or end of
+  # a vector
+
+  # Create a one column matrix m
+  m <- matrix(x, ncol = 1L)
+
+  # Set "" to NA as required by clipMatrix() to identify an empty field
+  m[is_empty(m)] <- NA
+
+  # Call clipMatrix() to remove empty rows on top or at the bottom of m
+  m <- kwb.utils::clipMatrix(m)
+
+  if (nrow(m) == 0L) {
+    return(character(0L))
+  }
+
+  # Return the first (and only) column of m with NA set (back) to ""
+  kwb.utils::defaultIfNA(m[, 1L], "")
 }
 
 # text_to_data_frame -----------------------------------------------------------

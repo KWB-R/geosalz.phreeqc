@@ -1,6 +1,7 @@
 # Main program -----------------------------------------------------------------
 if (FALSE)
 {
+  kwb.utils::assignPackageObjects("geosalz.phreeqc")
   file <- "inst/extdata/phreeqc_output.txt"
   result <- geosalz.phreeqc::read_output_file(file)
 
@@ -70,7 +71,7 @@ split.phreeqc_output_file <- function(x)
   stopifnot(all(dash_row_indices[, 2L] - dash_row_indices[, 1L] == 2L))
 
   # Extract sections of lines that are limited by the top dash rows
-  sections <- extract_blocks(x, starts = dash_row_indices[, 1L])
+  sections <- kwb.utils::extractRowRanges(x, starts = dash_row_indices[, 1L])
 
   # Name the sections by the title of the section
   names(sections) <- janitor::make_clean_names(sapply(sections, "[", 1L))
@@ -78,18 +79,11 @@ split.phreeqc_output_file <- function(x)
   # Cut title rows and empty rows on top of and at the bottom of each section
   sections <- lapply(sections, function(section) {
 
-    #section <- sections[[1L]]
+    #section <- sections[[6L]]
 
-    # Remove title and bottom empty row
-    section <- section[- (1:2)]
-
-    # Use clipMatrix() to remove empty rows at the start or end of a matrix
-    section[is_empty(section)] <- NA
-    section <- as.character(kwb.utils::clipMatrix(matrix(section, ncol = 1L)))
-
-    # Convert NA back to ""
-    section[is.na(section)] <- ""
-    section
+    # Remove title row and the row full of dashes below the title, then
+    # remove empty rows on top or at the bottom
+    trim_vector(section[- (1:2)])
   })
 
   # Set classes for relevant elements
@@ -137,7 +131,7 @@ split.phreeqc_input_data_for_simulation <- function(x)
   starts <- grep("SOLUTION", x)
 
   # Extract the blocks of lines between these rows
-  blocks <- extract_blocks(x, starts)
+  blocks <- kwb.utils::extractRowRanges(x, starts = starts)
 
   # Provide metadata on each solution section: solution number and solution id
   headers <- kwb.utils::extractSubstring(
@@ -164,7 +158,7 @@ split.phreeqc_initial_solution_calculations <- function(x)
 
   stopifnot(starts[1L] == 1L)
 
-  calculations_text <- extract_blocks(
+  calculations_text <- kwb.utils::extractRowRanges(
     x,
     starts = starts,
     startOffset = 2L,
@@ -185,7 +179,7 @@ split.phreeqc_initial_solution_calculation <- function(x)
 {
   starts <- grep("^---", x)
 
-  blocks <- extract_blocks(
+  blocks <- kwb.utils::extractRowRanges(
     x,
     starts = starts,
     startOffset = 2L,
@@ -215,7 +209,7 @@ convert_sections <- function(sections)
   # Section 4
   name <- "distribution_of_species"
   x <- get(sections, name)
-  kwb.utils::headtail(data.frame(x = x), 20)
+  #kwb.utils::headtail(data.frame(x = x), 20)
   sections[[name]] <- read_species_distribution(x)[-1L, ]
 
   # Section 5
