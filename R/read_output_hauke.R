@@ -216,7 +216,7 @@ convert_sections <- function(sections)
   name <- "distribution_of_species"
   x <- get(sections, name)
   kwb.utils::headtail(data.frame(x = x), 20)
-  sections[[name]] <- geosalz.phreeqc:::read_species_distribution(x)[-1L, ]
+  sections[[name]] <- read_species_distribution(x)[-1L, ]
 
   # Section 5
   name <- "saturation_indices"

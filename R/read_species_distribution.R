@@ -17,50 +17,50 @@ read_species_distribution <- function(txt) {
   txt_header <- txt[header_idx]
   txt_data <- txt[-header_idx]
 
-tfile <- file.path(tempdir(), "txt_header.txt")
+  tfile <- file.path(tempdir(), "txt_header.txt")
 
-writeLines(txt_header, tfile)
-
-
-suppressWarnings(expr = {
-header <- readr::read_fwf(
-  tfile,
-  col_positions = readr::fwf_widths(c(20,10,12,rep(10,4))),
-  col_types = readr::cols(.default = "c")
-)
-})
-
-header <- paste(kwb.utils::defaultIfNA(header[1, ], ""), header[2, ]) %>%
-  janitor::make_clean_names()
+  writeLines(txt_header, tfile)
 
 
-head(txt_data)
+  suppressWarnings(expr = {
+    header <- readr::read_fwf(
+      tfile,
+      col_positions = readr::fwf_widths(c(20,10,12,rep(10,4))),
+      col_types = readr::cols(.default = "c")
+    )
+  })
 
-# Add pseudo element as first row
-x <- c("XYZ", txt_data)
+  header <- paste(kwb.utils::defaultIfNA(header[1, ], ""), header[2, ]) %>%
+    janitor::make_clean_names()
 
 
-starts <- grep("^\\S", x)
-ranges <- kwb.utils::startsToRanges(starts, lastStop = length(x))
+  #head(txt_data)
 
-blocks <- lapply(seq_len(nrow(ranges)), function(i) {
-  x[ranges$from[i]:ranges$to[i]] %>%
-    stringr::str_remove("\t") %>%
-    stringr::str_trim() %>%
-    stringr::str_replace_all("\\s+", " ") %>%
-    stringr::str_split_fixed(pattern = " ", n = 7)
-})
+  # Add pseudo element as first row
+  x <- c("XYZ", txt_data)
 
-names(blocks) <- stringr::str_split_fixed(x[starts], pattern = "\\s+", n = 2)[,1]
 
-data_frames <- lapply(blocks, function(block) {
-  stats::setNames(as.data.frame(block), header)
-})
+  starts <- grep("^\\S", x)
+  ranges <- kwb.utils::startsToRanges(starts, lastStop = length(x))
 
-dat_clean <- kwb.utils::rbindAll(data_frames, nameColumn = "element") %>%
-  kwb.utils::moveColumnsToFront("element")
+  blocks <- lapply(seq_len(nrow(ranges)), function(i) {
+    x[ranges$from[i]:ranges$to[i]] %>%
+      stringr::str_remove("\t") %>%
+      stringr::str_trim() %>%
+      stringr::str_replace_all("\\s+", " ") %>%
+      stringr::str_split_fixed(pattern = " ", n = 7)
+  })
 
-dat_clean$element <- gsub("XYZ", "", dat_clean$element)
+  names(blocks) <- stringr::str_split_fixed(x[starts], pattern = "\\s+", n = 2)[,1]
 
-dat_clean
+  data_frames <- lapply(blocks, function(block) {
+    stats::setNames(as.data.frame(block), header)
+  })
+
+  dat_clean <- kwb.utils::rbindAll(data_frames, nameColumn = "element") %>%
+    kwb.utils::moveColumnsToFront("element")
+
+  dat_clean$element <- gsub("XYZ", "", dat_clean$element)
+
+  dat_clean
 }
