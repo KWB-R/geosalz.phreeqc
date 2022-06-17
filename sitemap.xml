@@ -37,10 +37,16 @@
     <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/package_file.html</loc>
+  </url>
+  <url>
     <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/pipe.html</loc>
   </url>
   <url>
     <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/prepare_solutions_input.html</loc>
+  </url>
+  <url>
+    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/read_output_file.html</loc>
   </url>
   <url>
     <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/read_redox_couples.html</loc>
@@ -56,5 +62,8 @@
   </url>
   <url>
     <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/tidy_samples.html</loc>
+  </url>
+  <url>
+    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/trim_vector.html</loc>
   </url>
 </urlset>
