@@ -86,9 +86,7 @@ read_simulations <- function(phreeqc_output) {
     phreeqc_output[calc_start_idx[i]:calc_end_idx[i]]
   })
 
-  calc <- lapply(seq(indices), function(i) {
-    read_output_solutions(calc_raw[[i]])
-  })
+  calc <- lapply(calc_raw, read_output_solutions)
 
 
   inp <- tibble::tibble(
