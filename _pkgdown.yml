@@ -1,9 +1,11 @@
 url: https://kwb-r.github.io/geosalz.phreeqc
 authors:
   Michael Rustler:
-    href: https://mrustl.de
+    href: https://www.kompetenz-wasser.de/en/ueber-uns/team/michael-rustler
+  Hauke Sonnenberg:
+    href: https://www.kompetenz-wasser.de/en/ueber-uns/team/hauke-sonnenberg
   Dwight Baldwin:
-    href: https://github.com/Dwightbaldwin
+    href: https://www.kompetenz-wasser.de/en/ueber-uns/team/dwight-baldwin
   GeoSalz:
     href: https://www.kompetenz-wasser.de/en/forschung/projekte/geosalz
     html: <img src='https://www.kompetenz-wasser.de/media/pages/forschung/projekte/geosalz/7bc1cad2b3-1650461797/geosalz_logo_transparent_rgb.png' alt='Project GeoSalz'

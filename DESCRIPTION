@@ -5,6 +5,8 @@ Version: 0.0.0.9000
 Authors@R: c(
     person("Michael", "Rustler", , "michael.rustler@kompetenz-wasser.de", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-0647-7726")),
+    person("Hauke", "Sonnenberg", , "hauke.sonnenberg@kompetenz-wasser.de", role = "aut",
+           comment = c(ORCID = "0000-0001-9134-2871")),
     person("Dwight", "Baldwin", , "dwight.baldwin@kompetenz-wasser.de", role = "ctb",
            comment = c(ORCID = "0000-0002-9329-5973")),
     person("GeoSalz", role = "fnd"),
@@ -30,8 +32,8 @@ Imports:
 Suggests: 
     covr,
     knitr,
-    phreeqc,
     openxlsx,
+    phreeqc,
     rmarkdown
 VignetteBuilder: 
     knitr
