@@ -88,9 +88,7 @@ read_simulations <- function(phreeqc_output) {
     phreeqc_output[calc_start_idx[i]:calc_end_idx[i]]
   })
 
-  calc <- lapply(seq(indices), function(i) {
-    read_output_solutions(calc_raw[[i]])
-  })
+  calc <- lapply(calc_raw, read_output_solutions)
 
 
   inp <- tibble::tibble(
@@ -131,6 +129,7 @@ read_simulations <- function(phreeqc_output) {
 #'
 read_output_solutions <- function(calc_output) {
   #calc_output <- phreeqc_output[sim$calc_start_idx:sim$calc_end_idx]
+  #calc_output <- calc_raw[[1L]]
 
     solutions_start_idx <- grep("^Initial solution", calc_output)
 
@@ -198,7 +197,7 @@ read_output_solutions <- function(calc_output) {
     })
 
     solutions$saturation_indices <- lapply(seq(nrow(solutions)), function(i) {
-      read_saturation_indices(solutions[i,]$blocks_raw[[1]]$saturation_indices)
+      read_saturation_indices(txt = solutions[i,]$blocks_raw[[1]]$saturation_indices)
     })
 
 
@@ -424,7 +423,7 @@ read_saturation_indices <- function(txt) {
 
  names(txt_clean) <- txt_header
 
- txt_clean
+ convert_log_K_column(txt_clean)
 
 }
 
