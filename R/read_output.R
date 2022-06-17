@@ -419,7 +419,7 @@ read_saturation_indices <- function(txt) {
 
  names(txt_clean) <- txt_header
 
- txt_clean
+ convert_log_K_column(txt_clean)
 
 }
 
