@@ -52,66 +52,45 @@ get_end_of_simulations_seconds <- function(phreeqc_output) {
 #' @importFrom tibble tibble
 #' @importFrom tidyr unnest
 #' @importFrom rlang .data
+#'
+read_simulations <- function(phreeqc_output)
+{
+  input_raw <- extract_between(
+    x = phreeqc_output,
+    from_pattern = "\\tTITLE",
+    to_pattern = "^TITLE"
+  )
 
-read_simulations <- function(phreeqc_output) {
+  calc_raw <- extract_between(
+    x = phreeqc_output,
+    from_pattern = "Beginning of initial solution calculations\\.",
+    to_pattern = "^End of simulation\\."
+  )
 
-  input_start_idx <- phreeqc_output %>%
-    stringr::str_detect(pattern = "\\tTITLE") %>%
-    which()
+  # Lists must be of same length
+  stopifnot(same_length(input_raw, calc_raw))
 
-  input_end_idx <- phreeqc_output %>%
-    stringr::str_detect(pattern = "^TITLE") %>%
-    which()
+  # Create vector of simulation numbers 1:n(simulations)
+  simulation_ids <- seq_along(input_raw)
 
-  calc_start_idx <-  phreeqc_output %>%
-    stringr::str_detect(pattern = "Beginning of initial solution calculations\\.") %>%
-    which()
-
-  calc_end_idx <-  phreeqc_output %>%
-    stringr::str_detect(pattern = "^End of simulation\\.") %>%
-    which()
-
-  n_simulations <- length(calc_end_idx)
-
-  indices <- seq_len(n_simulations)
-
-  input_raw <- lapply(indices, function(i) {
-    phreeqc_output[input_start_idx[i]:input_end_idx[i]]
-  })
-
-  input <- lapply(input_raw, function(txt) {
-    #txt <- input_raw[[1L]]
-    read_output_input(txt = txt)
-  })
-
-  calc_raw <- lapply(seq(indices), function(i) {
-    phreeqc_output[calc_start_idx[i]:calc_end_idx[i]]
-  })
-
-  calc <- lapply(calc_raw, read_output_solutions)
-
-
-  inp <- tibble::tibble(
-    simulation_id = seq(n_simulations),
-    data =  input) %>%
+  input <- tibble::tibble(
+    simulation_id = simulation_ids,
+    data = lapply(input_raw, read_output_input)
+  ) %>%
     tidyr::unnest(.data$data)
 
-
-
-  dat <- tibble::tibble(
-    simulation_id = seq(n_simulations),
-    #input = input,
-    solutions = calc)  %>%
+  output <- tibble::tibble(
+    simulation_id = simulation_ids,
+    solutions = lapply(calc_raw, read_output_solutions)
+  ) %>%
     tidyr::unnest(.data$solutions)
 
-
-  list(end_of_simulations_seconds = get_end_of_simulations_seconds(phreeqc_output),
-       input = inp,
-       output = dat)
-
+  list(
+    end_of_simulations_seconds = get_end_of_simulations_seconds(phreeqc_output),
+    input = input,
+    output = output
+  )
 }
-
-
 
 
 #' Helper Function: Read Output 'Solutions' Blocks

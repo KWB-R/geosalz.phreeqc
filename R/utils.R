@@ -1,3 +1,14 @@
+# extract_between --------------------------------------------------------------
+extract_between <- function(x, from_pattern, to_pattern)
+{
+  from_indices <- grep(from_pattern, x)
+  to_indices <- grep(to_pattern, x)
+
+  stopifnot(same_length(from_indices, to_indices))
+
+  mapply(function(i, j) x[i:j], from_indices, to_indices, SIMPLIFY = FALSE)
+}
+
 # is_empty ---------------------------------------------------------------------
 is_empty <- function(x)
 {
@@ -13,6 +24,12 @@ is_empty <- function(x)
 package_file <- function(...)
 {
   file.path(system.file("extdata", package = "geosalz.phreeqc"), ...)
+}
+
+# same_length ------------------------------------------------------------------
+same_length <- function(x, y)
+{
+  length(x) == length(y)
 }
 
 # trim_vector ------------------------------------------------------------------
