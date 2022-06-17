@@ -4,6 +4,12 @@ extract_between <- function(x, from_pattern, to_pattern)
   from_indices <- grep(from_pattern, x)
   to_indices <- grep(to_pattern, x)
 
+  extract_between_indices(x, from_indices, to_indices)
+}
+
+# extract_between_indices ------------------------------------------------------
+extract_between_indices <- function(x, from_indices, to_indices)
+{
   stopifnot(same_length(from_indices, to_indices))
 
   mapply(function(i, j) x[i:j], from_indices, to_indices, SIMPLIFY = FALSE)
