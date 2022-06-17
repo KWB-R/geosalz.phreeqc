@@ -307,8 +307,8 @@ read_solution_composition <- function(txt) {
     stringr::str_replace_all(" +", " ")
 
   sol_comp <- utils::read.table(text = txt_clean,
-                         sep = " ",
-                         header = TRUE)
+                                sep = " ",
+                                header = TRUE)
 
   stats::setNames(sol_comp, janitor::make_clean_names(names(sol_comp)))
 }
@@ -400,9 +400,9 @@ read_saturation_indices <- function(txt) {
                   V4 = as.numeric(.data$V4))
 
 
- names(txt_clean) <- txt_header
+  names(txt_clean) <- txt_header
 
- convert_log_K_column(txt_clean)
+  convert_log_K_column(txt_clean)
 
 }
 
