@@ -127,6 +127,7 @@ read_simulations <- function(phreeqc_output) {
 #'
 read_output_solutions <- function(calc_output) {
   #calc_output <- phreeqc_output[sim$calc_start_idx:sim$calc_end_idx]
+  #calc_output <- calc_raw[[1L]]
 
     solutions_start_idx <- grep("^Initial solution", calc_output)
 
@@ -194,7 +195,7 @@ read_output_solutions <- function(calc_output) {
     })
 
     solutions$saturation_indices <- lapply(seq(nrow(solutions)), function(i) {
-      read_saturation_indices(solutions[i,]$blocks_raw[[1]]$saturation_indices)
+      read_saturation_indices(txt = solutions[i,]$blocks_raw[[1]]$saturation_indices)
     })
 
 
