@@ -15,36 +15,37 @@ if (FALSE)
 #' @param file full path to phreeqc output file. Template:
 #'   \code{system.file("extdata/phreeqc_output.txt", package =
 #'   "geosalz.phreeqc")}
+#' @importFrom kwb.utils selectElements
 #' @export
 read_output_file <- function(file)
 {
-  get <- kwb.utils::selectElements
+  # Read the file into a vector of character
+  x <- readLines(file)
 
-  x <- kwb.utils::addClass(readLines(file), "phreeqc_output_file")
-
-  main_sections <- split(x)
+  # Split the file into main sections
+  main_sections <- split_output_file(x)
 
   # Extract sections "reading_input_data_..."
-  section_names <- names(main_sections)
-  input_names <- grep("^reading_input", section_names, value = TRUE)
+  is_input <- grepl("^reading_input", names(main_sections))
+  result <- lapply(main_sections[is_input], split_input_data)
 
-  result <- lapply(stats::setNames(nm = input_names), function(input_name) {
-    split(x = get(main_sections, input_name))
-  })
+  # Remove NULL entries (they may occur in case of empty sections)
+  result <- kwb.utils::excludeNULL(result)
 
   # Extract title
-  result[["title"]] <- trim(get(main_sections, "title"))
+  result[["title"]] <- trim(kwb.utils::selectElements(main_sections, "title"))
 
   # Extract initial solution calculations
-  element <- "beginning_of_initial_solution_calculations"
-  calculations <- split(get(main_sections, element))
-
-  calculations <- lapply(calculations, function(calculation) {
-    #calculation <- calculations[[1L]]
-    convert_sections(sections = split(calculation))
-  })
-
-  result[["initial_solution_calculations"]] <- calculations
+  #x <- calculations[[1L]]
+  result[["initial_solution_calculations"]] <- lapply(
+    X = split_calculations(
+      kwb.utils::selectElements(
+        main_sections,
+        "beginning_of_initial_solution_calculations"
+      )
+    ),
+    FUN = function(x) convert_sections(split_calculation(x))
+  )
 
   result[["runtime_seconds"]] <- extract_seconds(runtime_string = grep(
     "^end_of_run", names(main_sections), value = TRUE
@@ -57,11 +58,11 @@ read_output_file <- function(file)
 extract_seconds <- function(runtime_string)
 {
   pattern <- "^end_of_run_after_([0-9_]+)_seconds$"
-  as.integer(gsub("_", "", gsub(pattern, "\\1", runtime_string)))
+  as.numeric(gsub("_", ".", gsub(pattern, "\\1", runtime_string)))
 }
 
-# split.phreeqc_output_file ----------------------------------------------------
-split.phreeqc_output_file <- function(x)
+# split_output_file ------------------------------------------------------------
+split_output_file <- function(x)
 {
   # indices of dash rows "surrounding" the "top level" header lines, arranged
   # in a two-column matrix
@@ -77,7 +78,7 @@ split.phreeqc_output_file <- function(x)
   names(sections) <- janitor::make_clean_names(sapply(sections, "[", 1L))
 
   # Cut title rows and empty rows on top of and at the bottom of each section
-  sections <- lapply(sections, function(section) {
+  lapply(sections, function(section) {
 
     #section <- sections[[6L]]
 
@@ -85,29 +86,10 @@ split.phreeqc_output_file <- function(x)
     # remove empty rows on top or at the bottom
     trim_vector(section[- (1:2)])
   })
-
-  # Set classes for relevant elements
-  elements <- grep(
-    "^end_of|title", names(sections), value = TRUE, invert = TRUE
-  )
-
-  replacements <- list(
-    "^reading_" = "",
-    "^beginning_of_" = "",
-    "_\\d+$" = ""
-  )
-
-  for (element in elements) {
-    simple_name <- kwb.utils::multiSubstitute(element, replacements)
-    class_name <- paste0("phreeqc_", simple_name)
-    sections[[element]] <- kwb.utils::addClass(sections[[element]], class_name)
-  }
-
-  sections
 }
 
-# split.phreeqc_input_data_for_simulation --------------------------------------
-split.phreeqc_input_data_for_simulation <- function(x)
+# split_input_data -------------------------------------------------------------
+split_input_data <- function(x)
 {
   if (length(x) == 0L) {
     return()
@@ -151,8 +133,8 @@ split.phreeqc_input_data_for_simulation <- function(x)
   c(list(title = title), solutions)
 }
 
-# split.phreeqc_initial_solution_calculations ----------------------------------
-split.phreeqc_initial_solution_calculations <- function(x)
+# split_calculations -----------------------------------------------------------
+split_calculations <- function(x)
 {
   starts <- grep("Initial solution", x)
 
@@ -165,17 +147,11 @@ split.phreeqc_initial_solution_calculations <- function(x)
     stopOffset = 2L
   )
 
-  names(calculations_text) <- janitor::make_clean_names(x[starts])
-
-  lapply(
-    calculations_text,
-    kwb.utils::addClass,
-    class = "phreeqc_initial_solution_calculation"
-  )
+  stats::setNames(calculations_text, janitor::make_clean_names(x[starts]))
 }
 
-# split.phreeqc_initial_solution_calculation -----------------------------------
-split.phreeqc_initial_solution_calculation <- function(x)
+# split_calculation ------------------------------------------------------------
+split_calculation <- function(x)
 {
   starts <- grep("^---", x)
 
