@@ -2057,7 +2057,7 @@ Reading input data for simulation 2.
 ------------------------------------
 
 ---------------------------------
-End of Run after 2.32589 Seconds.
+End of Run after 2.24722 Seconds.
 ---------------------------------</code></pre>
 </div>
 <div class="section level2">
@@ -2067,7 +2067,7 @@ End of Run after 2.32589 Seconds.
 <code class="sourceCode R"><span class="va">sims</span> <span class="op">&lt;-</span> <span class="fu">geosalz.phreeqc</span><span class="fu">::</span><span class="fu"><a href="../reference/read_simulations.html">read_simulations</a></span><span class="op">(</span><span class="va">phreeqc_output</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">sims</span><span class="op">)</span>
 <span class="co">#&gt; List of 3</span>
-<span class="co">#&gt;  $ end_of_simulations_seconds: num 2.33</span>
+<span class="co">#&gt;  $ end_of_simulations_seconds: num 2.25</span>
 <span class="co">#&gt;  $ input                     : tibble [117 × 7] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   ..$ simulation_id: int [1:117] 1 1 1 1 1 1 1 1 1 1 ...</span>
 <span class="co">#&gt;   ..$ dataset_name : chr [1:117] "Test Dataset" "Test Dataset" "Test Dataset" "Test Dataset" ...</span>
@@ -2107,23 +2107,21 @@ End of Run after 2.32589 Seconds.
 <span class="co">#&gt;   .. .. ..$ log_activity  : chr [1:718] "-6.646" "-7.790" "-0.000" "-6.046" ...</span>
 <span class="co">#&gt;   .. .. ..$ log_gamma     : chr [1:718] "-0.044" "-0.038" "0.000" "0.001" ...</span>
 <span class="co">#&gt;   .. .. ..$ mole_v_cm3_mol: chr [1:718] "-4.74" "0.00" "18.03" "38.09" ...</span>
-<span class="co">#&gt;   .. ..$ saturation_indices     : tibble [141 × 11] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;   .. ..$ saturation_indices     : tibble [141 × 9] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   .. .. ..$ solution_id     : chr [1:141] "1" "1" "1" "1" ...</span>
 <span class="co">#&gt;   .. .. ..$ solution_name   : chr [1:141] "30a9e918" "30a9e918" "30a9e918" "30a9e918" ...</span>
 <span class="co">#&gt;   .. .. ..$ phase           : chr [1:141] "Anhydrite" "Aragonite" "Calcite" "CO2(g)" ...</span>
 <span class="co">#&gt;   .. .. ..$ si              : num [1:141] -1.81 0.18 0.33 -2.65 -0.18 ...</span>
 <span class="co">#&gt;   .. .. ..$ log_iap         : num [1:141] -5.96 -8.08 -8.08 -3.96 -17.09 ...</span>
-<span class="co">#&gt;   .. .. ..$ log_k_285k_1atm : num [1:141] -4.15 -8.27 -8.41 -1.31 -16.91 ...</span>
+<span class="co">#&gt;   .. .. ..$ log_k           : num [1:141] -4.15 -8.27 -8.41 -1.31 -16.91 ...</span>
 <span class="co">#&gt;   .. .. ..$ chemical_formula: chr [1:141] "CaSO4" "CaCO3" "CaCO3" "CO2" ...</span>
-<span class="co">#&gt;   .. .. ..$ log_k_284k_1atm : num [1:141] NA NA NA NA NA NA NA NA NA NA ...</span>
-<span class="co">#&gt;   .. .. ..$ log_k_298k_1atm : num [1:141] NA NA NA NA NA NA NA NA NA NA ...</span>
-<span class="co">#&gt;   .. .. ..$ log_k_286k_1atm : num [1:141] NA NA NA NA NA NA NA NA NA NA ...</span>
-<span class="co">#&gt;   .. .. ..$ log_k_283k_1atm : num [1:141] NA NA NA NA NA NA NA NA NA NA ...</span>
+<span class="co">#&gt;   .. .. ..$ temp_K          : num [1:141] 285 285 285 285 285 285 285 285 285 285 ...</span>
+<span class="co">#&gt;   .. .. ..$ p_atm           : num [1:141] 1 1 1 1 1 1 1 1 1 1 ...</span>
 
 <span class="va">sims_list</span> <span class="op">&lt;-</span> <span class="fu">geosalz.phreeqc</span><span class="fu">::</span><span class="fu"><a href="../reference/convert_simulations_to_list.html">convert_simulations_to_list</a></span><span class="op">(</span><span class="va">sims</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">sims_list</span><span class="op">)</span>
 <span class="co">#&gt; List of 7</span>
-<span class="co">#&gt;  $ end_of_simulations_seconds: num 2.33</span>
+<span class="co">#&gt;  $ end_of_simulations_seconds: num 2.25</span>
 <span class="co">#&gt;  $ input                     : tibble [117 × 7] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   ..$ simulation_id: int [1:117] 1 1 1 1 1 1 1 1 1 1 ...</span>
 <span class="co">#&gt;   ..$ dataset_name : chr [1:117] "Test Dataset" "Test Dataset" "Test Dataset" "Test Dataset" ...</span>
@@ -2160,18 +2158,16 @@ End of Run after 2.32589 Seconds.
 <span class="co">#&gt;   ..$ log_activity  : chr [1:718] "-6.646" "-7.790" "-0.000" "-6.046" ...</span>
 <span class="co">#&gt;   ..$ log_gamma     : chr [1:718] "-0.044" "-0.038" "0.000" "0.001" ...</span>
 <span class="co">#&gt;   ..$ mole_v_cm3_mol: chr [1:718] "-4.74" "0.00" "18.03" "38.09" ...</span>
-<span class="co">#&gt;  $ saturation_indices        : tibble [141 × 11] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt;  $ saturation_indices        : tibble [141 × 9] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;   ..$ solution_id     : chr [1:141] "1" "1" "1" "1" ...</span>
 <span class="co">#&gt;   ..$ solution_name   : chr [1:141] "30a9e918" "30a9e918" "30a9e918" "30a9e918" ...</span>
 <span class="co">#&gt;   ..$ phase           : chr [1:141] "Anhydrite" "Aragonite" "Calcite" "CO2(g)" ...</span>
 <span class="co">#&gt;   ..$ si              : num [1:141] -1.81 0.18 0.33 -2.65 -0.18 ...</span>
 <span class="co">#&gt;   ..$ log_iap         : num [1:141] -5.96 -8.08 -8.08 -3.96 -17.09 ...</span>
-<span class="co">#&gt;   ..$ log_k_285k_1atm : num [1:141] -4.15 -8.27 -8.41 -1.31 -16.91 ...</span>
+<span class="co">#&gt;   ..$ log_k           : num [1:141] -4.15 -8.27 -8.41 -1.31 -16.91 ...</span>
 <span class="co">#&gt;   ..$ chemical_formula: chr [1:141] "CaSO4" "CaCO3" "CaCO3" "CO2" ...</span>
-<span class="co">#&gt;   ..$ log_k_284k_1atm : num [1:141] NA NA NA NA NA NA NA NA NA NA ...</span>
-<span class="co">#&gt;   ..$ log_k_298k_1atm : num [1:141] NA NA NA NA NA NA NA NA NA NA ...</span>
-<span class="co">#&gt;   ..$ log_k_286k_1atm : num [1:141] NA NA NA NA NA NA NA NA NA NA ...</span>
-<span class="co">#&gt;   ..$ log_k_283k_1atm : num [1:141] NA NA NA NA NA NA NA NA NA NA ...</span></code></pre></div>
+<span class="co">#&gt;   ..$ temp_K          : num [1:141] 285 285 285 285 285 285 285 285 285 285 ...</span>
+<span class="co">#&gt;   ..$ p_atm           : num [1:141] 1 1 1 1 1 1 1 1 1 1 ...</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="export-to-excel">Export to Excel<a class="anchor" aria-label="anchor" href="#export-to-excel"></a>
