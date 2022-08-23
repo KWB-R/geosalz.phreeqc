@@ -55,6 +55,7 @@ get_end_of_simulations_seconds <- function(phreeqc_output) {
 #'
 read_simulations <- function(phreeqc_output)
 {
+  ##kwb.utils::assignPackageObjects("geosalz.phreeqc")
   input_raw <- extract_between(
     x = phreeqc_output,
     from_pattern = "\\tTITLE",
@@ -154,17 +155,19 @@ read_output_solutions <- function(calc_output)
     saturation_indices = read_saturation_indices
   )
 
-  first_blocks <- lapply(seq(nrow(solutions)), function(i) {
+  first_blocks <- lapply(seq_len(nrow(solutions)), function(i) {
     solutions[i, ]$blocks_raw[[1]]
   })
 
   for (section in names(section_functions)) {
     solutions[[section]] <- lapply(first_blocks, function(x) {
-      (section_functions[[section]])(x[[section]])
+      if (section %in% names(x)) {
+        (section_functions[[section]])(x[[section]])
+      }
     })
   }
 
-  columns <- stats::setNames(nm = names(solutions$blocks_raw[[1]]))
+  columns <- stats::setNames(nm = names(section_functions))
 
   lapply(columns, function(column) {
     solutions %>%
