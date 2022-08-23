@@ -55,6 +55,7 @@ get_end_of_simulations_seconds <- function(phreeqc_output) {
 #'
 read_simulations <- function(phreeqc_output)
 {
+  ##kwb.utils::assignPackageObjects("geosalz.phreeqc")
   input_raw <- extract_between(
     x = phreeqc_output,
     from_pattern = "\\tTITLE",
@@ -106,88 +107,73 @@ read_simulations <- function(phreeqc_output)
 #' @importFrom dplyr select
 #' @importFrom tidyselect all_of
 #'
-read_output_solutions <- function(calc_output) {
-  #calc_output <- phreeqc_output[sim$calc_start_idx:sim$calc_end_idx]
+read_output_solutions <- function(calc_output)
+{
   #calc_output <- calc_raw[[1L]]
 
-    solutions_start_idx <- grep("^Initial solution", calc_output)
+  pattern <- "^Initial solution (\\d+)\\.\t(.*)$"
+  starts <- grep(pattern, calc_output)
+  ends <- c(starts[-1L], length(calc_output) - 1L) - 4L
 
+  solutions <- kwb.utils::extractSubstring(
+    pattern = pattern,
+    x = calc_output[starts],
+    index = c(solution_id = 1L, solution_name = 2L)
+  )
 
-    solutions <- calc_output[solutions_start_idx] %>%
-      stringr::str_split_fixed(pattern = "\\t", n = 2) %>%
-      as.data.frame() %>%
-      dplyr::rename(solution_id = "V1",
-                    solution_name = "V2") %>%
-      dplyr::mutate(solution_id = stringr::str_remove_all(.data$solution_id,
-                                                          pattern = "Initial solution\\s?|\\.$"))
+  solutions$start_idx <- starts
+  solutions$end_idx <- ends
 
-    solutions$start_idx <- solutions_start_idx
-    solutions$end_idx <-c(solutions_start_idx[2:length(solutions_start_idx)] - 4,
-        length(calc_output) - 5)
+  solution_outputs <- extract_between_indices(calc_output, starts, ends)
 
+  sol_list_raw <- lapply(solution_outputs, function(solution_output) {
 
-    sol_list_raw <- lapply(seq(nrow(solutions)), function(i) {
+    #solution_output <- solution_outputs[[1L]]
+    solution_output <- kwb.utils::removeEmpty(solution_output)
 
-      sol <- solutions[i,]
+    ind <- grep("^-+", solution_output)
 
-      solution_output <- calc_output[sol$start_idx:sol$end_idx] %>%
-        stringr::str_subset(pattern = "")
+    sol_out_names <- solution_output[ind] %>%
+      stringr::str_remove_all("-+") %>%
+      janitor::make_clean_names()
 
+    stats::setNames(nm = sol_out_names, extract_between_indices(
+      solution_output,
+      ind + 1L,
+      c(ind[-1L] - 1L, length(solution_output))
+    ))
 
-      ind <- grep("^-+", solution_output)
+  })
 
-      sol_out_names <- solution_output[ind] %>%
-        stringr::str_remove_all("-+") %>%
-        janitor::make_clean_names()
+  solutions$blocks_raw <- sol_list_raw
 
+  section_functions <- list(
+    solution_composition = read_solution_composition,
+    description_of_solution = read_solution_description,
+    redox_couples = read_redox_couples,
+    distribution_of_species = read_species_distribution,
+    saturation_indices = read_saturation_indices
+  )
 
+  first_blocks <- lapply(seq_len(nrow(solutions)), function(i) {
+    solutions[i, ]$blocks_raw[[1]]
+  })
 
-      sol_out <- tibble::tibble(
-        name = sol_out_names,
-        start_idx = ind + 1,
-        end_idx = c(ind[2:length(ind)] - 1,
-                    length(solution_output))
-      )
-
-      stats::setNames(lapply(seq(nrow(sol_out)), function(i) {
-        solution_output[sol_out$start_idx[i]:sol_out$end_idx[i]]
+  for (section in names(section_functions)) {
+    solutions[[section]] <- lapply(first_blocks, function(x) {
+      if (section %in% names(x)) {
+        (section_functions[[section]])(x[[section]])
       }
-      ), nm = sol_out_names)
-
-
     })
+  }
 
-    solutions$blocks_raw <- sol_list_raw
+  columns <- stats::setNames(nm = names(section_functions))
 
-    solutions$solution_composition <- lapply(seq(nrow(solutions)), function(i) {
-      read_solution_composition(solutions[i,]$blocks_raw[[1]]$solution_composition)
-    })
-
-    solutions$description_of_solution <- lapply(seq(nrow(solutions)), function(i) {
-      read_solution_description(solutions[i,]$blocks_raw[[1]]$description_of_solution)
-    })
-
-    solutions$redox_couples <- lapply(seq(nrow(solutions)), function(i) {
-      read_redox_couples(solutions[i,]$blocks_raw[[1]]$redox_couples)
-    })
-
-    solutions$distribution_of_species <- lapply(seq(nrow(solutions)), function(i) {
-      read_species_distribution(solutions[i,]$blocks_raw[[1]]$distribution_of_species)
-    })
-
-    solutions$saturation_indices <- lapply(seq(nrow(solutions)), function(i) {
-      read_saturation_indices(txt = solutions[i,]$blocks_raw[[1]]$saturation_indices)
-    })
-
-
-    col_names <- names(solutions$blocks_raw[[1]])
-
-    stats::setNames(lapply(col_names, function(col_name) {
-      solutions %>%
-         dplyr::select(tidyselect::all_of(c(names(solutions)[1:2], col_name))) %>%
-         tidyr::unnest(cols = tidyselect::all_of(col_name))
-
-     }), nm = col_names)
+  lapply(columns, function(column) {
+    solutions %>%
+      dplyr::select(tidyselect::all_of(c(names(solutions)[1:2], column))) %>%
+      tidyr::unnest(cols = tidyselect::all_of(column))
+  })
 
 }
 
@@ -307,8 +293,8 @@ read_solution_composition <- function(txt) {
     stringr::str_replace_all(" +", " ")
 
   sol_comp <- utils::read.table(text = txt_clean,
-                         sep = " ",
-                         header = TRUE)
+                                sep = " ",
+                                header = TRUE)
 
   stats::setNames(sol_comp, janitor::make_clean_names(names(sol_comp)))
 }
@@ -400,9 +386,9 @@ read_saturation_indices <- function(txt) {
                   V4 = as.numeric(.data$V4))
 
 
- names(txt_clean) <- txt_header
+  names(txt_clean) <- txt_header
 
- convert_log_K_column(txt_clean)
+  convert_log_K_column(txt_clean)
 
 }
 
