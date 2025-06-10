@@ -21,9 +21,11 @@ jobs:
         with:
           use-public-rspm: true
 
-      - name: Install dependencies (fallback ohne pak)
+      - name: Install dependencies
         run: |
-          install.packages(c("covr", "xml2"))
+          install.packages(c("remotes"))
+          remotes::install_deps(dependencies = TRUE)
+          remotes::install_cran(c("covr", "xml2"))
         shell: Rscript {0}
 
       - name: Test coverage
