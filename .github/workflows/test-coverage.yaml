@@ -29,20 +29,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Test coverage
-        run: |
-          temp_lib <- file.path(Sys.getenv("RUNNER_TEMP"), "library")
-          dir.create(temp_lib, showWarnings = FALSE, recursive = TRUE)
-          .libPaths(c(temp_lib, .libPaths()))
-
-          install_path <- file.path(normalizePath(Sys.getenv("RUNNER_TEMP")), "package")
-          dir.create(install_path, showWarnings = FALSE, recursive = TRUE)
-
-          cov <- covr::package_coverage(
-            quiet = FALSE,
-            clean = FALSE,
-            install_path = install_path
-          )
-          covr::to_cobertura(cov)
+        run: covr::codecov()
         shell: Rscript {0}
 
       - name: Upload coverage to Codecov
