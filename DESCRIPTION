@@ -38,6 +38,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes: 
+    cran/phreeqc,
     kwb-r/kwb.base,
     kwb-r/kwb.utils
 Encoding: UTF-8
