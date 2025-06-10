@@ -1,69 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/404.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/articles/workflow.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/index.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/add_solution_id.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/convert_simulations_to_list.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/convert_to_numeric_lab_values.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/package_file.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/prepare_solutions_input.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/read_output_file.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/read_redox_couples.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/read_saturation_indices.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/read_simulations.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/remove_missing_samples.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/tidy_samples.html</loc>
-  </url>
-  <url>
-    <loc>https://kwb-r.github.io/geosalz.phreeqc/reference/trim_vector.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/404.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/articles/index.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/articles/workflow.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/authors.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/index.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/LICENSE-text.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/LICENSE.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/news/index.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/reference/add_solution_id.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/reference/convert_simulations_to_list.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/reference/convert_to_numeric_lab_values.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/reference/index.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/reference/package_file.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/reference/pipe.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/reference/prepare_solutions_input.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/reference/read_output_file.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/reference/read_redox_couples.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/reference/read_saturation_indices.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/reference/read_simulations.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/reference/remove_missing_samples.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/reference/tidy_samples.html</loc></url>
+<url><loc>https://kwb-r.github.io/geosalz.phreeqc/reference/trim_vector.html</loc></url>
 </urlset>
+
